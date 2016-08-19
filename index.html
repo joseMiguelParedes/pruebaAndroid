@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Api Rest</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="css/misestilos.css"  media="screen,projection"/>
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col s12 mp-alto">
+				<img src="img/logo.png" class="mp-iguales">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 mp-alto"><a class="waves-effect waves-light btn-large mp-iguales" data-sdsid="1">ACID</a></div>
+			<div class="col s12 mp-alto"><a class="waves-effect waves-light btn-large mp-iguales" data-sdsid="2">AUTOMOTIVE</a></div>
+			<div class="col s12 mp-alto"><a class="waves-effect waves-light btn-large mp-iguales" data-sdsid="3">BUILDING MATERIALS</a></div>
+			<div class="col s12 mp-alto"><a class="waves-effect waves-light btn-large mp-iguales" data-sdsid="4">CHEMICALS</a></div>
+			<div class="col s12 mp-alto"><a class="waves-effect waves-light btn-large mp-iguales" data-sdsid="5">DRY GOODS</a></div>
+			<div class="col s12 mp-alto"><a class="waves-effect waves-light btn-large mp-iguales" data-sdsid="6">GASES</a></div>
+			<div class="col s12 mp-alto"><a class="waves-effect waves-light btn-large mp-iguales" data-sdsid="7">METALS</a></div>
+		</div>
+
+		<div id="lista_sds"></div>
+
+	</div>
+
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/materialize.js"></script>
+<script>
+	$('.mp-iguales').on('click', function(event) {
+		var sdsId = $(this).data('sdsid');
+		var cabeza = $(this).text();
+       $.ajax({
+	        url: "http://www.ravenmechanicalsys.net/apprest/"+sdsId
+	    }).then(function(respuesta) {
+	    	var tabla = '<table cellpadding="0" cellspacing="0" border="1">';
+                tabla += '<caption><h3>'+cabeza+'</h3></caption>';
+                tabla += '<thead>';
+                tabla += '<tr>';
+                tabla += '<th>TITLE</th><th>VENDOR</th><th>ISSUE</th>';
+                tabla += '</tr>';
+                tabla += '</thead>';
+                tabla += '<tbody>';
+                tr = '';
+ 
+               for (var i = 0; i < respuesta.length; i++) {
+	                tr += '<tr>';
+	                tr += '<td>'+respuesta[i].titulo+'</td><td>'+respuesta[i].vendor+'</td><td>'+respuesta[i].issue+'</td>';
+	                tr += '</tr>';
+	            }
+
+	            tabla += tr;
+                tabla += '</tbody></table>';
+ 
+                $('#lista_sds').html( tabla );
+	    });
+        
+    });
+</script>
+</html>
